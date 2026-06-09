@@ -9,38 +9,41 @@
 body{
 margin:0;
 font-family:Arial;
-background:#f4f6fa;
+background:#0f0f10;
+color:white;
 direction:rtl;
 }
 
+/* هيدر فاخر */
 header{
-background:linear-gradient(135deg,#000,#333);
-color:white;
-text-align:center;
+background:#000;
 padding:22px;
+text-align:center;
 font-size:26px;
 font-weight:bold;
+letter-spacing:2px;
+border-bottom:1px solid #222;
 }
 
 /* المنتجات */
 .container{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
 gap:15px;
 padding:20px;
 }
 
 .card{
-background:white;
+background:#161618;
+border:1px solid #222;
 border-radius:15px;
 overflow:hidden;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
-cursor:pointer;
 transition:0.3s;
 }
 
 .card:hover{
-transform:translateY(-5px);
+transform:scale(1.03);
+border-color:#555;
 }
 
 .card img{
@@ -54,8 +57,23 @@ padding:10px;
 }
 
 .price{
-color:green;
+color:#00ff88;
 font-weight:bold;
+}
+
+/* زر */
+button{
+width:100%;
+padding:10px;
+border:none;
+cursor:pointer;
+background:#fff;
+color:#000;
+font-weight:bold;
+}
+
+button:hover{
+background:#00ff88;
 }
 
 /* الفورم */
@@ -64,49 +82,42 @@ display:none;
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
-background:rgba(0,0,0,0.6);
+background:rgba(0,0,0,0.8);
 justify-content:center;
 align-items:center;
 }
 
 form{
-background:white;
+background:#111;
 padding:15px;
-border-radius:10px;
+border-radius:12px;
 width:340px;
+border:1px solid #333;
 }
 
 input,select{
 width:100%;
-padding:8px;
-margin:5px 0;
-border:1px solid #ddd;
+padding:9px;
+margin:6px 0;
+border:none;
 border-radius:6px;
+background:#1c1c1f;
+color:white;
 }
 
 .btn{
 width:100%;
 padding:10px;
 border:none;
-color:white;
-background:#1aa34a;
+color:black;
+background:#00ff88;
+font-weight:bold;
 cursor:pointer;
 }
 
 .close{
 background:red;
-}
-
-/* صفحة المنتج */
-#productPage{
-display:none;
-padding:20px;
-}
-
-video{
-width:100%;
-border-radius:10px;
-margin-top:10px;
+color:white;
 }
 </style>
 </head>
@@ -115,13 +126,30 @@ margin-top:10px;
 
 <header>🛒 DZ STORE</header>
 
-<!-- المنتجات -->
-<div class="container" id="products"></div>
+<div class="container">
 
-<!-- صفحة منتج -->
-<div id="productPage">
-<button onclick="back()">⬅ رجوع</button>
-<div id="productBox"></div>
+<!-- منتج 1 -->
+<div class="card">
+<img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30">
+<div class="card-body">
+<h3>ساعة فاخرة</h3>
+<p>تصميم أنيق وعصري</p>
+<div class="price">6000 دج</div>
+</div>
+<button onclick="openOrder('ساعة فاخرة',6000)">شراء</button>
+</div>
+
+<!-- منتج 2 -->
+<div class="card">
+<img src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db">
+<div class="card-body">
+<h3>حذاء رياضي</h3>
+<p>راحة وجودة عالية</p>
+<div class="price">4500 دج</div>
+</div>
+<button onclick="openOrder('حذاء رياضي',4500)">شراء</button>
+</div>
+
 </div>
 
 <!-- الفورم -->
@@ -141,12 +169,15 @@ margin-top:10px;
 
 <input id="address" placeholder="العنوان الكامل" required>
 
+<!-- 🔢 كمية -->
+<input id="qty" type="number" min="1" value="1" placeholder="الكمية">
+
 <select id="delivery">
 <option>توصيل للمنزل</option>
 <option>استلام من المكتب</option>
 </select>
 
-<button class="btn" type="submit">تأكيد عبر WhatsApp</button>
+<button class="btn" type="submit">تأكيد الطلب عبر WhatsApp</button>
 <button class="btn close" type="button" onclick="closeOrder()">إغلاق</button>
 
 </form>
@@ -156,81 +187,15 @@ margin-top:10px;
 
 let productName="";
 let productPrice=0;
-let productImg="";
-let productVideo="";
-
-/* منتجات جاهزة */
-let products=[
-{
-id:1,
-name:"ساعة يد فاخرة",
-desc:"ساعة أنيقة وعصرية",
-price:6000,
-img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30",
-video:""
-},
-{
-id:2,
-name:"حذاء رياضي",
-desc:"مريح للجري والمشي",
-price:4500,
-img:"https://images.unsplash.com/photo-1606813907291-d86efa9b94db",
-video:""
-}
-];
-
-/* عرض المنتجات */
-function render(){
-let box=document.getElementById("products");
-box.innerHTML="";
-
-products.forEach(p=>{
-box.innerHTML+=`
-<div class="card" onclick="openProduct(${p.id})">
-<img src="${p.img}">
-<div class="card-body">
-<h3>${p.name}</h3>
-<p>${p.desc}</p>
-<div class="price">${p.price} دج</div>
-</div>
-</div>
-`;
-});
-}
-render();
-
-/* فتح منتج */
-function openProduct(id){
-let p=products.find(x=>x.id==id);
-
-productName=p.name;
-productPrice=p.price;
-productImg=p.img;
-productVideo=p.video;
-
-document.getElementById("productPage").style.display="block";
-document.getElementById("products").style.display="none";
-
-document.getElementById("productBox").innerHTML=`
-<h2>${p.name}</h2>
-<img src="${p.img}" style="width:100%;border-radius:10px">
-<p>${p.desc}</p>
-<h3>${p.price} دج</h3>
-
-${p.video ? `<video controls src="${p.video}"></video>` : ""}
-
-<button onclick="openOrder()">🛒 طلب المنتج (Commander)</button>
-`;
-}
-
-/* رجوع */
-function back(){
-document.getElementById("productPage").style.display="none";
-document.getElementById("products").style.display="grid";
-}
 
 /* فتح الطلب */
-function openOrder(){
+function openOrder(name,price){
+productName=name;
+productPrice=price;
+
+document.getElementById("title").innerText=
+"طلب: "+name+" - "+price+" دج";
+
 document.getElementById("overlay").style.display="flex";
 }
 
@@ -239,7 +204,7 @@ function closeOrder(){
 document.getElementById("overlay").style.display="none";
 }
 
-/* إرسال WhatsApp */
+/* WhatsApp */
 function sendOrder(e){
 e.preventDefault();
 
@@ -248,12 +213,18 @@ let phone=document.getElementById("phone").value;
 let wilaya=document.getElementById("wilaya").value;
 let city=document.getElementById("city").value;
 let address=document.getElementById("address").value;
+let qty=document.getElementById("qty").value;
 let delivery=document.getElementById("delivery").value;
 
+/* 🔥 رسالة واضحة 100% */
 let msg=
-`🛒 طلب جديد DZ STORE
+`🛒 DZ STORE - طلب جديد
+
 📦 المنتج: ${productName}
-💰 السعر: ${productPrice} دج
+💰 سعر الوحدة: ${productPrice} دج
+🔢 الكمية: ${qty}
+💵 المجموع: ${productPrice * qty} دج
+
 👤 الاسم: ${name}
 📞 الهاتف: ${phone}
 🏙 الولاية: ${wilaya}
@@ -268,7 +239,7 @@ window.open("https://wa.me/"+number+"?text="+encodeURIComponent(msg),"_blank");
 closeOrder();
 }
 
-/* الولايات */
+/* تحميل الولايات */
 const wilayas=[
 "أدرار","الشلف","الأغواط","أم البواقي","باتنة","بجاية","بسكرة","بشار",
 "البليدة","البويرة","تمنراست","تبسة","تلمسان","تيارت","تيزي وزو","الجزائر",
@@ -279,7 +250,6 @@ const wilayas=[
 "غرداية","غليزان"
 ];
 
-/* تحميل الولايات */
 let w=document.getElementById("wilaya");
 
 wilayas.forEach(x=>{
