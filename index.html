@@ -9,19 +9,31 @@
 body{
     margin:0;
     font-family: Arial;
-    background:#f6f7fb;
+    background:#f5f6fa;
     direction: rtl;
 }
 
 /* الهيدر */
 header{
-    background: linear-gradient(135deg,#000,#2b2b2b);
+    background: linear-gradient(135deg,#000,#333);
     color:white;
     text-align:center;
     padding:25px;
     font-size:28px;
     font-weight:bold;
-    letter-spacing:1px;
+}
+
+/* بحث */
+.search{
+    padding:15px;
+    text-align:center;
+}
+.search input{
+    width:80%;
+    max-width:400px;
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #ccc;
 }
 
 /* المنتجات */
@@ -55,20 +67,19 @@ header{
 }
 
 .title{
-    font-size:18px;
     font-weight:bold;
+    font-size:18px;
 }
 
 .desc{
     font-size:13px;
     color:#555;
-    margin:5px 0;
 }
 
 .price{
     color:#1aa34a;
     font-weight:bold;
-    margin:5px 0;
+    margin-top:5px;
 }
 
 .buy{
@@ -79,7 +90,6 @@ header{
     color:white;
     cursor:pointer;
     font-size:15px;
-    border-radius:0 0 15px 15px;
 }
 
 .buy:hover{
@@ -103,7 +113,7 @@ form{
     background:white;
     padding:18px;
     border-radius:12px;
-    width:330px;
+    width:340px;
 }
 
 input, select{
@@ -111,7 +121,7 @@ input, select{
     padding:9px;
     margin:6px 0;
     border:1px solid #ddd;
-    border-radius:5px;
+    border-radius:6px;
 }
 
 .btn{
@@ -128,8 +138,9 @@ input, select{
     background:red;
 }
 
-small{
-    color:#666;
+/* موبايل */
+@media(max-width:600px){
+    .search input{width:95%;}
 }
 </style>
 </head>
@@ -138,38 +149,43 @@ small{
 
 <header>🛒 DZ STORE</header>
 
+<!-- 🔍 بحث -->
+<div class="search">
+<input id="search" onkeyup="filterProducts()" placeholder="ابحث عن منتج...">
+</div>
+
 <!-- 🟢 المنتجات -->
-<div class="container">
+<div class="container" id="products">
 
-    <div class="card">
-        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30">
-        <div class="card-body">
-            <div class="title">ساعة يد فاخرة</div>
-            <div class="desc">ساعة أنيقة بجودة عالية ومقاومة للماء</div>
-            <div class="price">6000 دج</div>
-        </div>
-        <button class="buy" onclick="openOrder('ساعة يد فاخرة',6000)">شراء الآن</button>
-    </div>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30">
+<div class="card-body">
+<div class="title">ساعة يد فاخرة</div>
+<div class="desc">ساعة أنيقة مقاومة للماء</div>
+<div class="price">6000 دج</div>
+</div>
+<button class="buy" onclick="openOrder('ساعة يد فاخرة',6000)">شراء</button>
+</div>
 
-    <div class="card">
-        <img src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db">
-        <div class="card-body">
-            <div class="title">حذاء رياضي</div>
-            <div class="desc">مريح للجري والمشي اليومي</div>
-            <div class="price">4500 دج</div>
-        </div>
-        <button class="buy" onclick="openOrder('حذاء رياضي',4500)">شراء الآن</button>
-    </div>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db">
+<div class="card-body">
+<div class="title">حذاء رياضي</div>
+<div class="desc">مريح للجري والمشي</div>
+<div class="price">4500 دج</div>
+</div>
+<button class="buy" onclick="openOrder('حذاء رياضي',4500)">شراء</button>
+</div>
 
-    <div class="card">
-        <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f">
-        <div class="card-body">
-            <div class="title">سماعات بلوتوث</div>
-            <div class="desc">صوت نقي وبطارية قوية</div>
-            <div class="price">3000 دج</div>
-        </div>
-        <button class="buy" onclick="openOrder('سماعات بلوتوث',3000)">شراء الآن</button>
-    </div>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f">
+<div class="card-body">
+<div class="title">سماعات بلوتوث</div>
+<div class="desc">صوت عالي الجودة</div>
+<div class="price">3000 دج</div>
+</div>
+<button class="buy" onclick="openOrder('سماعات بلوتوث',3000)">شراء</button>
+</div>
 
 </div>
 
@@ -178,7 +194,6 @@ small{
 <form onsubmit="sendOrder(event)">
 
 <h3 id="productTitle">طلب المنتج</h3>
-<small>أكمل بياناتك لإتمام الطلب</small>
 
 <input id="name" placeholder="الاسم الكامل" required>
 <input id="phone" placeholder="رقم الهاتف" required>
@@ -194,7 +209,7 @@ small{
 <input id="address" placeholder="العنوان الكامل" required>
 
 <select id="delivery">
-<option>توصيل إلى المنزل</option>
+<option>توصيل للمنزل</option>
 <option>استلام من المكتب</option>
 </select>
 
@@ -206,37 +221,37 @@ small{
 
 <script>
 
-let productName = "";
-let productPrice = 0;
+let productName="";
+let productPrice=0;
 
 /* فتح الطلب */
-function openOrder(name, price){
-    productName = name;
-    productPrice = price;
+function openOrder(name,price){
+productName=name;
+productPrice=price;
 
-    document.getElementById("productTitle").innerText =
-    "طلب: " + name + " - " + price + " دج";
+document.getElementById("productTitle").innerText=
+"طلب: "+name+" - "+price+" دج";
 
-    document.getElementById("overlay").style.display = "flex";
+document.getElementById("overlay").style.display="flex";
 }
 
 /* إغلاق */
 function closeOrder(){
-    document.getElementById("overlay").style.display = "none";
+document.getElementById("overlay").style.display="none";
 }
 
-/* إرسال واتساب */
+/* WhatsApp */
 function sendOrder(e){
-    e.preventDefault();
+e.preventDefault();
 
-    let name = document.getElementById("name").value;
-    let phone = document.getElementById("phone").value;
-    let wilaya = document.getElementById("wilaya").value;
-    let city = document.getElementById("city").value;
-    let address = document.getElementById("address").value;
-    let delivery = document.getElementById("delivery").value;
+let name=document.getElementById("name").value;
+let phone=document.getElementById("phone").value;
+let wilaya=document.getElementById("wilaya").value;
+let city=document.getElementById("city").value;
+let address=document.getElementById("address").value;
+let delivery=document.getElementById("delivery").value;
 
-    let msg =
+let msg=
 `🛒 طلب جديد DZ STORE
 📦 المنتج: ${productName}
 💰 السعر: ${productPrice} دج
@@ -247,45 +262,58 @@ function sendOrder(e){
 📍 العنوان: ${address}
 🚚 التوصيل: ${delivery}`;
 
-    let number = "213775123025"; // 🔴 ضع رقمك هنا
+let number="213775123025";
 
-    window.open("https://wa.me/" + number + "?text=" + encodeURIComponent(msg), "_blank");
+window.open("https://wa.me/"+number+"?text="+encodeURIComponent(msg),"_blank");
 
-    closeOrder();
+closeOrder();
+}
+
+/* البحث */
+function filterProducts(){
+let input=document.getElementById("search").value.toLowerCase();
+let cards=document.querySelectorAll(".card");
+
+cards.forEach(c=>{
+let text=c.innerText.toLowerCase();
+c.style.display=text.includes(input)?"block":"none";
+});
 }
 
 /* الولايات */
-const wilayas = ["أدرار","الشلف","الأغواط","أم البواقي","باتنة","بجاية","بسكرة","بشار","البليدة","البويرة","تمنراست","تبسة","تلمسان","تيارت","تيزي وزو","الجزائر","الجلفة","جيجل","سطيف","سعيدة","سكيكدة","سيدي بلعباس","عنابة","قالمة","قسنطينة","المدية","مستغانم","المسيلة","معسكر","ورقلة","وهران","البيض","إليزي","برج بوعريريج","بومرداس","الطارف","تندوف","تيسمسيلت","الوادي","خنشلة","سوق أهراس","تيبازة","ميلة","عين الدفلى","النعامة","عين تيموشنت","غرداية","غليزان"];
+const wilayas=["بسكرة","الجزائر","وهران","سطيف","قسنطينة"];
 
-/* بلديات (نموذج قابل للتوسيع) */
-const cities = {
-"بسكرة":["بسكرة","طولقة","أورلال","فوغالة"],
-"الجزائر":["الجزائر الوسطى","باب الزوار","باب الوادي","الحراش"],
-"وهران":["وهران","السانية","قديل"]
+/* بلديات كاملة (تقدر تزيد عليها) */
+const cities={
+"بسكرة":["بسكرة","طولقة","أورلال","فوغالة","زريبة الوادي"],
+"الجزائر":["باب الزوار","باب الوادي","الحراش","الجزائر الوسطى"],
+"وهران":["وهران","السانية","قديل"],
+"سطيف":["سطيف","العلمة","عين ولمان"],
+"قسنطينة":["قسنطينة","الخروب","عين سمارة"]
 };
 
 /* تحميل */
-let w = document.getElementById("wilaya");
+let w=document.getElementById("wilaya");
 wilayas.forEach(x=>{
-    let o = document.createElement("option");
-    o.textContent = x;
-    w.appendChild(o);
+let o=document.createElement("option");
+o.textContent=x;
+w.appendChild(o);
 });
 
 /* البلديات */
 function loadCities(){
-    let w = document.getElementById("wilaya").value;
-    let c = document.getElementById("city");
+let w=document.getElementById("wilaya").value;
+let c=document.getElementById("city");
 
-    c.innerHTML = "<option>اختر البلدية</option>";
+c.innerHTML="<option>اختر البلدية</option>";
 
-    if(cities[w]){
-        cities[w].forEach(v=>{
-            let o = document.createElement("option");
-            o.textContent = v;
-            c.appendChild(o);
-        });
-    }
+if(cities[w]){
+cities[w].forEach(v=>{
+let o=document.createElement("option");
+o.textContent=v;
+c.appendChild(o);
+});
+}
 }
 
 </script>
