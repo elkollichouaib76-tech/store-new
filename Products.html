@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>Product</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{margin:0;font-family:Arial;background:#0f0f10;color:white;direction:rtl}
+.container{padding:20px;max-width:500px;margin:auto}
+
+img{width:100%;border-radius:10px}
+
+.price{color:#00ff88;font-size:20px;margin:10px 0}
+
+button{
+width:100%;
+padding:12px;
+background:#00ff88;
+border:none;
+font-weight:bold;
+cursor:pointer;
+}
+
+input,select{
+width:100%;
+padding:10px;
+margin:5px 0;
+border:none;
+border-radius:6px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="box"></div>
+
+<script src="products.js"></script>
+
+<script>
+let id=new URLSearchParams(window.location.search).get("id");
+let p=products.find(x=>x.id==id);
+
+document.getElementById("box").innerHTML=`
+<h2>${p.name}</h2>
+<img src="${p.img}">
+<p>${p.desc}</p>
+<div class="price">${p.price} دج</div>
+
+<button onclick="show()">🛒 اطلب الآن</button>
+
+<div id="form" style="display:none">
+
+<input id="name" placeholder="الاسم">
+<input id="phone" placeholder="الهاتف">
+
+<select id="wilaya">
+<option>الجزائر</option>
+<option>وهران</option>
+<option>قسنطينة</option>
+<option>بسكرة</option>
+</select>
+
+<input id="city" placeholder="البلدية">
+<input id="address" placeholder="العنوان">
+
+<button onclick="send()">تأكيد الطلب</button>
+
+</div>
+`;
+
+function show(){
+document.getElementById("form").style.display="block";
+}
+
+function send(){
+
+let name=document.getElementById("name").value;
+let phone=document.getElementById("phone").value;
+let wilaya=document.getElementById("wilaya").value;
+let city=document.getElementById("city").value;
+let address=document.getElementById("address").value;
+
+let msg=
+`🛒 طلب جديد
+📦 ${p.name}
+💰 ${p.price} دج
+👤 ${name}
+📞 ${phone}
+🏙 ${wilaya}
+🏘 ${city}
+📍 ${address}`;
+
+window.open("https://wa.me/213XXXXXXXXX?text="+encodeURIComponent(msg));
+}
+</script>
+
+</body>
+</html>
