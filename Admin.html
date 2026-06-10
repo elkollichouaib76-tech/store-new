@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>Admin Panel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{margin:0;font-family:Arial;background:#111;color:white;direction:rtl}
+.container{padding:20px;max-width:600px;margin:auto}
+
+input{
+width:100%;
+padding:10px;
+margin:5px 0;
+border:none;
+border-radius:6px;
+}
+
+button{
+width:100%;
+padding:10px;
+background:#00ff88;
+border:none;
+font-weight:bold;
+cursor:pointer;
+margin-top:5px;
+}
+
+.card{
+background:#222;
+padding:10px;
+margin-top:10px;
+border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>⚙ لوحة التحكم</h2>
+
+<input id="name" placeholder="اسم المنتج">
+<input id="price" placeholder="السعر">
+<input id="desc" placeholder="الوصف">
+<input id="img" placeholder="رابط الصورة">
+
+<button onclick="add()">إضافة منتج</button>
+
+<div id="list"></div>
+
+</div>
+
+<script src="products.js"></script>
+
+<script>
+
+function render(){
+let list=document.getElementById("list");
+list.innerHTML="";
+
+products.forEach((p,i)=>{
+list.innerHTML+=`
+<div class="card">
+${p.name} - ${p.price} دج
+<button onclick="del(${i})">حذف</button>
+</div>
+`;
+});
+}
+render();
+
+function add(){
+
+products.push({
+id:Date.now(),
+name:name.value,
+price:price.value,
+desc:desc.value,
+img:img.value
+});
+
+saveProducts();
+render();
+}
+
+function del(i){
+products.splice(i,1);
+saveProducts();
+render();
+}
+</script>
+
+</body>
+</html>
