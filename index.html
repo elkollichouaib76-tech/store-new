@@ -1,289 +1,390 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>👑 DE STORE</title>
+<title>👑 DZ STORE</title>
 
-<style>
+<link rel="stylesheet" href="style.css">
+</head>
 
-/* RESET */
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+🚚 توصيل إلى 58 ولاية | 💵 الدفع عند الاستلام | ✅ منتجات مختارة
+</div>
+
+<!-- HEADER -->
+<header>
+
+<div class="logo-area">
+
+<div class="crown">👑</div>
+
+<div class="logo-text">
+DZ STORE
+</div>
+
+</div>
+
+<div class="search-area">
+
+<input
+type="text"
+id="searchInput"
+placeholder="ابحث عن منتج..."
+>
+
+<select id="categoryFilter">
+
+<option value="all">كل التصنيفات</option>
+
+<option value="electronics">إلكترونيات</option>
+
+<option value="home">منزل</option>
+
+<option value="accessories">إكسسوارات</option>
+
+<option value="sport">رياضة</option>
+
+<option value="car">سيارات</option>
+
+<option value="beauty">جمال</option>
+
+</select>
+
+</div>
+
+</header>
+
+<!-- SLIDER -->
+<section class="slider">
+
+<div class="slide active">
+<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200">
+</div>
+
+<div class="slide">
+<img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1200">
+</div>
+
+<div class="slide">
+<img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=1200">
+</div>
+
+</section>
+
+<!-- PRODUCTS -->
+<section class="products-section">
+
+<h2>
+🔥 المنتجات
+</h2>
+
+<div id="productsContainer" class="products-grid"></div>
+
+</section>
+
+<!-- IMAGE POPUP -->
+<div id="imageModal" class="modal">
+
+<span class="close-modal">&times;</span>
+
+<img id="modalImage">
+
+</div>
+
+<!-- ORDER POPUP -->
+<div id="orderPopup" class="popup">
+
+<div class="popup-content">
+
+<h3>إتمام الطلب</h3>
+
+<input id="customerName" placeholder="الاسم الكامل">
+
+<input id="customerPhone" placeholder="رقم الهاتف">
+
+<select id="customerWilaya"></select>
+
+<input id="customerAddress" placeholder="العنوان">
+
+<input id="customerQty" type="number" value="1" min="1">
+
+<button onclick="sendOrder()">
+إرسال الطلب
+</button>
+
+<button onclick="closeOrderPopup()">
+إغلاق
+</button>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial;
+font-family:Arial,sans-serif;
 }
 
 body{
-background:#0e1117;
+background:#0b0b0b;
 color:white;
 }
 
-/* HEADER */
-header{
-position:sticky;
-top:0;
-z-index:1000;
-background:#0b0f14;
-padding:15px;
-border-bottom:1px solid #1f2937;
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
-.logo{
-font-size:22px;
-font-weight:bold;
-color:#00ff88;
-}
-
-.search{
-width:50%;
+.topbar{
+background:#00e676;
+color:#000;
 padding:10px;
-border-radius:10px;
-border:none;
-outline:none;
-}
-
-/* HERO SMALL */
-.hero{
-padding:40px 20px;
 text-align:center;
-background:linear-gradient(180deg,#0b0f14,#0e1117);
+font-weight:bold;
 }
 
-.hero h1{
-font-size:34px;
-margin-bottom:10px;
-}
-
-.hero p{
-color:#aaa;
-}
-
-/* PRODUCTS GRID */
-.container{
-max-width:1200px;
-margin:auto;
+header{
+background:#111;
 padding:20px;
-}
-
-.products{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+display:flex;
+flex-direction:column;
 gap:15px;
 }
 
-/* CARD */
+.logo-area{
+text-align:center;
+}
+
+.crown{
+font-size:40px;
+}
+
+.logo-text{
+font-size:28px;
+font-weight:bold;
+color:#00e676;
+}
+
+.search-area{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.search-area input,
+.search-area select{
+flex:1;
+padding:12px;
+border:none;
+border-radius:10px;
+}
+
+.slider{
+height:400px;
+overflow:hidden;
+position:relative;
+}
+
+.slide{
+display:none;
+height:100%;
+}
+
+.slide.active{
+display:block;
+}
+
+.slide img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.products-section{
+padding:30px;
+}
+
+.products-grid{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
+
 .card{
-background:#111827;
-border:1px solid #1f2937;
+background:#181818;
 border-radius:15px;
 overflow:hidden;
-transition:0.3s;
+transition:.3s;
 }
 
 .card:hover{
-transform:translateY(-6px);
-border-color:#00ff88;
+transform:translateY(-5px);
 }
 
 .card img{
 width:100%;
-height:200px;
+height:250px;
 object-fit:cover;
-}
-
-.info{
-padding:12px;
-}
-
-.price{
-color:#00ff88;
-font-size:18px;
-margin:8px 0;
-font-weight:bold;
-}
-
-.btn{
-display:block;
-text-align:center;
-padding:10px;
-background:#00ff88;
-color:black;
-border-radius:10px;
-text-decoration:none;
-font-weight:bold;
 cursor:pointer;
 }
 
-/* POPUP */
-.popup{
+.card-content{
+padding:15px;
+}
+
+.price{
+color:#00e676;
+font-size:22px;
+font-weight:bold;
+}
+
+.old-price{
+text-decoration:line-through;
+color:#777;
+}
+
+.order-btn{
+width:100%;
+padding:12px;
+background:#25D366;
+border:none;
+border-radius:10px;
+color:white;
+cursor:pointer;
+margin-top:10px;
+}
+
+.modal{
 display:none;
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.85);
+inset:0;
+background:rgba(0,0,0,.9);
 justify-content:center;
 align-items:center;
 }
 
-.box{
-background:#111827;
+.modal img{
+max-width:90%;
+max-height:90%;
+}
+
+.popup{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.8);
+justify-content:center;
+align-items:center;
+}
+
+.popup-content{
+background:#111;
 padding:20px;
 border-radius:15px;
 width:90%;
 max-width:400px;
 }
 
-.box input,
-.box select{
+.popup-content input,
+.popup-content select{
 width:100%;
-padding:10px;
+padding:12px;
 margin:8px 0;
 border:none;
 border-radius:8px;
 }
 
-.box button{
+.popup-content button{
 width:100%;
 padding:12px;
-background:#00ff88;
-border:none;
-border-radius:10px;
-font-weight:bold;
+margin-top:10px;
+const products = [
+
+{
+name:"Smart Watch",
+category:"electronics",
+price:3500,
+oldPrice:4500,
+image:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500",
+description:"ساعة ذكية متعددة الوظائف"
+},
+
+{
+name:"Wireless Headphones",
+category:"electronics",
+price:5500,
+oldPrice:7000,
+image:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500",
+description:"سماعات بلوتوث احترافية"
+},
+
+{
+name:"Mini Blender",
+category:"home",
+price:4500,
+oldPrice:6000,
+image:"https://images.unsplash.com/photo-1570222094114-d054a817e56b?w=500",
+description:"خلاط محمول"
+
 }
 
-.close{
-text-align:right;
-color:red;
-cursor:pointer;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<header>
-<div class="logo">👑 DE STORE</div>
-<input class="search" placeholder="ابحث عن منتج..." onkeyup="search(this.value)">
-</header>
-
-<section class="hero">
-<h1>متجر احترافي بسيط وسريع</h1>
-<p>اطلب أي منتج في ثواني</p>
-</section>
-
-<div class="container">
-
-<div class="products" id="products"></div>
-
-</div>
-
-<!-- POPUP -->
-<div class="popup" id="popup">
-
-<div class="box">
-
-<div class="close" onclick="closePopup()">✖</div>
-
-<h3>إتمام الطلب</h3>
-
-<input id="name" placeholder="الاسم">
-<input id="phone" placeholder="الهاتف">
-
-<select id="wilaya">
-<option>الجزائر</option>
-<option>سطيف</option>
-<option>وهران</option>
-<option>قسنطينة</option>
-<option>باتنة</option>
-</select>
-
-<input id="address" placeholder="العنوان">
-
-<button onclick="send()">إرسال واتساب</button>
-
-</div>
-
-</div>
-
-<script>
-
-/* PRODUCTS */
-const products=[
-{name:"Smart Watch",price:3500,img:"images/watch.jpg"},
-{name:"Headphones",price:4500,img:"images/headphones.jpg"},
-{name:"Blender",price:5500,img:"images/blender.jpg"}
 ];
+}
+const wilayas = [
+"أدرار","الشلف","الأغواط","أم البواقي","باتنة",
+"بجاية","بسكرة","بشار","البليدة","البويرة",
+"تمنراست","تبسة","تلمسان","تيارت","تيزي وزو",
+"الجزائر","الجلفة","جيجل","سطيف","سعيدة",
+"سكيكدة","سيدي بلعباس","عنابة","قالمة","قسنطينة",
+"المدية","مستغانم","المسيلة","معسكر","ورقلة",
+"وهران","البيض","إليزي","برج بوعريريج","بومرداس",
+"الطارف","تندوف","تيسمسيلت","الوادي","خنشلة",
+"سوق أهراس","تيبازة","ميلة","عين الدفلى","النعامة",
+"عين تموشنت","غرداية","غليزان","تيميمون",
+"برج باجي مختار","أولاد جلال","بني عباس",
+"عين صالح","عين قزام","تقرت","جانت",
+"المغير","المنيعة"
+];
+let selectedProduct = null;
 
-let selected=null;
-
-/* SHOW */
-function show(list=products){
-
-let box=document.getElementById("products");
-box.innerHTML="";
-
-list.forEach((p,i)=>{
-
-box.innerHTML+=`
-<div class="card">
-<img src="${p.img}">
-<div class="info">
-<h3>${p.name}</h3>
-<div class="price">${p.price} دج</div>
-<button class="btn" onclick="openP(${i})">Commander</button>
-</div>
-</div>
-`;
-
-});
-
+function openOrder(product){
+selectedProduct = product;
+document.getElementById("orderPopup").style.display="flex";
 }
 
-show();
-
-/* SEARCH */
-function search(v){
-let res=products.filter(p=>p.name.toLowerCase().includes(v.toLowerCase()));
-show(res);
+function closeOrderPopup(){
+document.getElementById("orderPopup").style.display="none";
 }
 
-/* POPUP */
-function openP(i){
-selected=products[i];
-popup.style.display="flex";
+function sendOrder(){
+
+const msg =
+`🛒 طلب جديد - DZ STORE
+
+📦 المنتج: ${selectedProduct.name}
+
+💰 السعر: ${selectedProduct.price} دج
+
+👤 الاسم: ${customerName.value}
+
+📞 الهاتف: ${customerPhone.value}
+
+🏙 الولاية: ${customerWilaya.value}
+
+📍 العنوان: ${customerAddress.value}
+
+🔢 الكمية: ${customerQty.value}`;
+
+window.open(
+"https://wa.me/213775123025?text="+encodeURIComponent(msg),
+"_blank"
+
+);
+
 }
-
-function closePopup(){
-popup.style.display="none";
-}
-
-/* SEND */
-function send(){
-
-let msg=
-"🛒 طلب جديد - DE STORE\n\n"+
-"📦 المنتج: "+selected.name+"\n"+
-"💰 السعر: "+selected.price+"\n\n"+
-"👤 الاسم: "+name.value+"\n"+
-"📞 الهاتف: "+phone.value+"\n"+
-"🏙 الولاية: "+wilaya.value+"\n"+
-"📍 العنوان: "+address.value;
-
-window.open("https://wa.me/213775123025?text="+encodeURIComponent(msg));
-
-}
-
-</script>
-
-</body>
-</html>
