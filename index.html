@@ -160,7 +160,55 @@ color:#00e676;
 
 </style>
 </head>
+<div id="orderModal"
+style="
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.8);
+justify-content:center;
+align-items:center;
+z-index:9999;
+">
 
+<div style="background:#111;padding:20px;border-radius:15px;width:90%;max-width:400px">
+
+<h2 style="color:#00e676;text-align:center">إتمام الطلب</h2>
+
+<input id="firstName" placeholder="الاسم" style="width:100%;padding:10px;margin:5px 0">
+<input id="lastName" placeholder="اللقب" style="width:100%;padding:10px;margin:5px 0">
+<input id="phone" placeholder="رقم الهاتف" style="width:100%;padding:10px;margin:5px 0">
+
+<select id="wilaya" style="width:100%;padding:10px;margin:5px 0">
+<option>الجزائر</option>
+<option>سطيف</option>
+<option>وهران</option>
+<option>قسنطينة</option>
+<option>باتنة</option>
+<option>بجاية</option>
+<option>عنابة</option>
+</select>
+
+<input id="qty" type="number" value="1" min="1" style="width:100%;padding:10px;margin:5px 0">
+
+<select id="delivery" style="width:100%;padding:10px;margin:5px 0">
+<option>توصيل عادي</option>
+<option>توصيل سريع</option>
+<option>استلام من المكتب</option>
+</select>
+
+<button onclick="sendOrder()"
+style="width:100%;padding:10px;background:#00e676;border:none;border-radius:8px">
+إرسال الطلب
+</button>
+
+<button onclick="closeOrder()"
+style="width:100%;margin-top:5px;padding:10px;background:red;color:white;border:none;border-radius:8px">
+إغلاق
+</button>
+
+</div>
+</div>
 <body>
 
 <div class="top-bar">
@@ -323,8 +371,7 @@ box.innerHTML += `
 <img src="${p.image}" style="width:100%;border-radius:10px">
 <h3>${p.name}</h3>
 <p style="color:#00e676">${p.price} دج</p>
-<button onclick="openOrder('${p.name}',${p.price})"
-style="width:100%;padding:10px;background:#00e676;border:none;border-radius:8px">
+<button onclick="openOrder('${p.name}',${p.price})">
 Commander
 </button>
 </div>
@@ -369,3 +416,42 @@ window.open(
 }
 
 </script>
+let selectedProduct = "";
+let selectedPrice = 0;
+
+function openOrder(name, price){
+selectedProduct = name;
+selectedPrice = price;
+document.getElementById("orderModal").style.display="flex";
+}
+
+function closeOrder(){
+document.getElementById("orderModal").style.display="none";
+}
+
+function sendOrder(){
+
+let first = document.getElementById("firstName").value;
+let last = document.getElementById("lastName").value;
+let phone = document.getElementById("phone").value;
+let wilaya = document.getElementById("wilaya").value;
+let qty = document.getElementById("qty").value;
+let delivery = document.getElementById("delivery").value;
+
+let msg =
+`🛒 طلب جديد - DZ STORE
+
+📦 المنتج: ${selectedProduct}
+💰 السعر: ${selectedPrice} دج
+
+👤 الاسم: ${first} ${last}
+📞 الهاتف: ${phone}
+🏙 الولاية: ${wilaya}
+🚚 طريقة التوصيل: ${delivery}
+🔢 الكمية: ${qty}`;
+
+window.open(
+"https://wa.me/213775123025?text=" + encodeURIComponent(msg),
+"_blank"
+);
+}
