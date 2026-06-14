@@ -1,375 +1,779 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DZ STORE PRO MAX ULTRA</title>
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>👑 DE STORE</title><style>
 
-<style>
-body{margin:0;font-family:Arial;background:#0b0b0b;color:#fff}
-
-header{
-background:#000;
-padding:15px;
-text-align:center;
-border-bottom:2px solid #00e676;
-position:sticky;top:0;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
 }
 
-.logo{color:#00e676;font-size:26px;font-weight:bold}
+html{
+scroll-behavior:smooth;
+}
 
-.container{max-width:1100px;margin:auto;padding:20px}
+body{
+background:#0b0b0b;
+color:white;
+}
+
+header{
+position:sticky;
+top:0;
+z-index:999;
+background:#000;
+padding:15px;
+border-bottom:2px solid #00e676;
+}
+
+.logo{
+text-align:center;
+font-size:34px;
+font-weight:bold;
+color:#00e676;
+}
+
+.logo span{
+color:#ffd700;
+}
+
+nav{
+text-align:center;
+margin-top:10px;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin:0 12px;
+font-size:16px;
+}
+
+.hero{
+height:550px;
+background:url("https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?q=80&w=1600")
+center center/cover;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+position:relative;
+}
+
+.hero::before{
+content:"";
+position:absolute;
+inset:0;
+background:rgba(0,0,0,.65);
+}
+
+.hero-content{
+position:relative;
+z-index:2;
+}
+
+.hero h1{
+font-size:60px;
+margin-bottom:15px;
+}
+
+.hero p{
+font-size:22px;
+color:#ddd;
+margin-bottom:20px;
+}
+
+.btn{
+display:inline-block;
+padding:15px 30px;
+background:#00e676;
+color:#000;
+text-decoration:none;
+font-weight:bold;
+border-radius:12px;
+}
+
+.container{
+max-width:1300px;
+margin:auto;
+padding:20px;
+}
+
+.section-title{
+text-align:center;
+font-size:32px;
+color:#00e676;
+margin:40px 0 20px;
+}
+
+</style></head><body><header><div class="logo">👑 DE <span>STORE</span>
+
+</div><nav><a href="#products">المنتجات</a>
+
+<a href="#order">الطلب</a>
+
+<a href="#contact">اتصل بنا</a>
+
+</nav></header><section class="hero"><div class="hero-content"><h1>👑 DE STORE</h1><p>أفضل العروض مع التوصيل إلى جميع ولايات الجزائر
+
+</p><a href="#products" class="btn">ابدأ التسوق
+
+</a></div><<h2 class="section-title">
+🔍 البحث والتصنيفات
+</h2>
+
+<div class="search-box">
+
+<input
+type="text"
+id="search"
+placeholder="ابحث عن منتج..."
+onkeyup="searchProducts()"
+>
+
+<select
+id="categoryFilter"
+onchange="filterProducts()"
+>
+
+<option value="all">كل التصنيفات</option>
+<option value="electronics">إلكترونيات</option>
+<option value="home">منزل</option>
+<option value="car">سيارات</option>
+<option value="beauty">جمال</option>
+<option value="sport">رياضة</option>
+
+</select>
+
+</div>
+
+<style>
+
+.search-box{
+display:flex;
+gap:10px;
+margin-bottom:25px;
+flex-wrap:wrap;
+}
+
+.search-box input,
+.search-box select{
+flex:1;
+padding:12px;
+border:none;
+border-radius:10px;
+font-size:16px;
+}
 
 .products{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:15px;
+grid-template-columns:
+repeat(auto-fit,minmax(280px,1fr));
+gap:20px;
 }
 
-.card{background:#181818;border-radius:12px;overflow:hidden}
+.card{
+background:#181818;
+border-radius:15px;
+overflow:hidden;
+}
 
-.card img{width:100%;height:180px;object-fit:cover}
-
-.info{padding:10px}
-
-.price{color:#00e676;font-weight:bold}
-
-button{
-background:#25D366;
-border:none;
-padding:10px;
+.card img{
 width:100%;
-color:white;
-cursor:pointer;
-border-radius:8px;
-}
-
-.small-btn{
-background:#333;
-padding:6px;
-margin-top:5px;
-}
-
-.cart-btn{
-position:fixed;
-bottom:15px;
-left:15px;
-background:#00e676;
-color:#000;
-padding:12px 18px;
-border-radius:30px;
-font-weight:bold;
+height:260px;
+object-fit:cover;
 cursor:pointer;
 }
 
-.panel{
-position:fixed;
-top:0;
-right:-420px;
-width:350px;
-height:100%;
-background:#111;
+.info{
 padding:15px;
-overflow:auto;
-transition:0.3s;
 }
 
-.panel.active{right:0}
-
-.item{
-background:#222;
-padding:8px;
-margin:5px 0;
-border-radius:8px;
+.price{
+font-size:24px;
+color:#00e676;
+font-weight:bold;
 }
 
-input,select{
-width:100%;
-padding:10px;
-margin:5px 0;
-border-radius:8px;
-border:none;
-}
-
-.admin{
-background:#1a1a1a;
-padding:10px;
-margin-top:10px;
+.order-btn{
+display:block;
+text-align:center;
+background:#25D366;
+color:white;
+padding:12px;
+margin-top:15px;
 border-radius:10px;
-border:1px solid #00e676;
+text-decoration:none;
+font-weight:bold;
 }
 
-.login{
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:#000;
-display:flex;
-align-items:center;
-justify-content:center;
-flex-direction:column;
-}
-
-.hidden{display:none}
 </style>
-</head>
 
-<body>
+<h2
+class="section-title"
+id="products"
+>
 
-<!-- LOGIN -->
-<div id="login" class="login">
-<h2>🔐 Admin Login</h2>
-<input id="pass" type="password" placeholder="كلمة السر">
-<button onclick="login()">دخول</button>
+🔥 المنتجات
+
+</h2>
+
+<div class="products">
+
+<div
+class="card product electronics"
+>
+
+<img
+src="images/watch.jpg"
+onclick="openImage(this.src)"
+>
+
+<div class="info">
+
+<h3>Smart Watch</h3>
+
+<p>
+ساعة ذكية متعددة الوظائف
+</p>
+
+<div class="price">
+3500 دج
 </div>
 
-<header>
-<div class="logo">👑 DZ STORE ULTRA</div>
-</header>
+<a
+href="#order"
+class="order-btn"
+onclick="selectProduct(
+'Smart Watch',
+3500,
+'images/watch.jpg'
+)"
+>
 
-<div class="container">
+Commander
 
-<h2>🛍 المنتجات</h2>
-<div id="products" class="products"></div>
-
-<hr>
-
-<div id="adminPanel" class="hidden">
-
-<h2>⚙️ لوحة الإدارة</h2>
-
-<div class="admin">
-
-<input id="pname" placeholder="اسم المنتج">
-<input id="pprice" placeholder="السعر">
-<input id="pimg" placeholder="رابط الصورة">
-
-<button onclick="addProduct()">➕ إضافة منتج</button>
-
-</div>
-
-<h3>📦 الطلبات</h3>
-<div id="orders"></div>
+</a>
 
 </div>
 
 </div>
 
-<!-- CART -->
-<div class="cart-btn" onclick="toggleCart()">
-🛒 السلة (<span id="count">0</span>)
+<div
+class="card product home"
+>
+
+<img
+src="images/blender.jpg"
+onclick="openImage(this.src)"
+>
+
+<div class="info">
+
+<h3>Mini Blender</h3>
+
+<p>
+خلاط محمول قابل للشحن
+</p>
+
+<div class="price">
+4500 دج
 </div>
 
-<div class="panel" id="cartPanel">
+<a
+href="#order"
+class="order-btn"
+onclick="selectProduct(
+'Mini Blender',
+4500,
+'images/blender.jpg'
+)"
+>
 
-<h3>🛒 السلة</h3>
-<div id="cartItems"></div>
+Commander
 
-<hr>
+</a>
 
-<input id="name" placeholder="الاسم">
-<input id="phone" placeholder="الهاتف">
+</div>
+
+</div>
+
+<div
+class="card product electronics"
+>
+
+<img
+src="images/headphones.jpg"
+onclick="openImage(this.src)"
+>
+
+<div class="info">
+
+<h3>Headphones</h3>
+
+<p>
+سماعات لاسلكية
+</p>
+
+<div class="price">
+5500 دج
+</div>
+
+<a
+href="#order"
+class="order-btn"
+onclick="selectProduct(
+'Headphones',
+5500,
+'images/headphones.jpg'
+)"
+>
+
+Commander
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+<div
+id="imageModal"
+class="modal"
+>
+
+<span
+class="close"
+onclick="closeImage()"
+>
+
+×
+
+</span>
+
+<img id="modalImg">
+
+</div>
+
+<style>
+
+.modal{
+display:none;
+position:fixed;
+left:0;
+top:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.95);
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+
+.modal img{
+max-width:95%;
+max-height:90%;
+border-radius:15px;
+}
+
+.close{
+position:absolute;
+top:20px;
+right:30px;
+font-size:40px;
+cursor:pointer;
+}
+
+</style>/section><div class="container">
+   <h2
+class="section-title"
+id="order"
+>
+
+🛒 الطلب
+
+</h2>
+
+<form
+onsubmit="sendOrder();return false;"
+>
+
+<input
+type="text"
+id="name"
+placeholder="الاسم الكامل"
+required
+>
+
+<input
+type="tel"
+id="phone"
+placeholder="رقم الهاتف"
+required
+>
 
 <select id="wilaya">
-<option>سطيف</option>
-<option>الجزائر</option>
-<option>وهران</option>
-<option>قسنطينة</option>
+
+<option>أدرار</option>
+<option>الشلف</option>
+<option>الأغواط</option>
+<option>أم البواقي</option>
 <option>باتنة</option>
+<option>بجاية</option>
+<option>بسكرة</option>
+<option>بشار</option>
+<option>البليدة</option>
+<option>البويرة</option>
+<option>تمنراست</option>
+<option>تبسة</option>
+<option>تلمسان</option>
+<option>تيارت</option>
+<option>تيزي وزو</option>
+<option>الجزائر</option>
+<option>الجلفة</option>
+<option>جيجل</option>
+<option>سطيف</option>
+<option>سعيدة</option>
+<option>سكيكدة</option>
+<option>سيدي بلعباس</option>
+<option>عنابة</option>
+<option>قالمة</option>
+<option>قسنطينة</option>
+<option>المدية</option>
+<option>مستغانم</option>
+<option>المسيلة</option>
+<option>معسكر</option>
+<option>ورقلة</option>
+<option>وهران</option>
+<option>البيض</option>
+<option>إليزي</option>
+<option>برج بوعريريج</option>
+<option>بومرداس</option>
+<option>الطارف</option>
+<option>تندوف</option>
+<option>تيسمسيلت</option>
+<option>الوادي</option>
+<option>خنشلة</option>
+<option>سوق أهراس</option>
+<option>تيبازة</option>
+<option>ميلة</option>
+<option>عين الدفلى</option>
+<option>النعامة</option>
+<option>عين تموشنت</option>
+<option>غرداية</option>
+<option>غليزان</option>
+<option>تيميمون</option>
+<option>برج باجي مختار</option>
+<option>أولاد جلال</option>
+<option>بني عباس</option>
+<option>عين صالح</option>
+<option>عين قزام</option>
+<option>تقرت</option>
+<option>جانت</option>
+<option>المغير</option>
+<option>المنيعة</option>
+
 </select>
 
-<button onclick="sendOrder()">إرسال الطلب</button>
+<div
+id="shippingPrice"
+style="
+margin:15px 0;
+font-size:20px;
+color:#00e676;
+"
+>
+
+سعر التوصيل : 650 دج
 
 </div>
 
+<input
+type="text"
+id="address"
+placeholder="العنوان"
+required
+>
+
+<input
+type="number"
+id="qty"
+value="1"
+min="1"
+>
+
+<textarea
+id="note"
+placeholder="ملاحظات إضافية"
+></textarea>
+
+<button type="submit">
+
+إرسال الطلب
+
+</button>
+
+</form>
+
+<style>
+
+form{
+background:#181818;
+padding:20px;
+border-radius:15px;
+}
+
+input,
+select,
+textarea{
+width:100%;
+padding:12px;
+margin:8px 0;
+border:none;
+border-radius:10px;
+}
+
+button{
+width:100%;
+padding:14px;
+background:#25D366;
+border:none;
+border-radius:10px;
+color:white;
+font-size:18px;
+cursor:pointer;
+}
+
+</style>
 <script>
 
-/* ======================
-   AUTH
-====================== */
+let selectedProduct="";
+let selectedPrice=0;
+let selectedImage="";
 
-function login(){
-let pass = document.getElementById("pass").value;
-if(pass==="admin123"){
-document.getElementById("login").style.display="none";
-document.getElementById("adminPanel").classList.remove("hidden");
+function selectProduct(
+name,
+price,
+image
+){
+
+selectedProduct=name;
+selectedPrice=price;
+selectedImage=image;
+
+}
+
+function openImage(src){
+
+document
+.getElementById("imageModal")
+.style.display="flex";
+
+document
+.getElementById("modalImg")
+.src=src;
+
+}
+
+function closeImage(){
+
+document
+.getElementById("imageModal")
+.style.display="none";
+
+}
+
+function searchProducts(){
+
+let input=
+document
+.getElementById("search")
+.value
+.toLowerCase();
+
+let products=
+document
+.querySelectorAll(".product");
+
+products.forEach(product=>{
+
+let text=
+product.innerText
+.toLowerCase();
+
+product.style.display=
+text.includes(input)
+?
+"block"
+:
+"none";
+
+});
+
+}
+
+function filterProducts(){
+
+let value=
+document
+.getElementById("categoryFilter")
+.value;
+
+let products=
+document
+.querySelectorAll(".product");
+
+products.forEach(product=>{
+
+if(
+value==="all" ||
+product.classList.contains(value)
+){
+
+product.style.display="block";
+
 }else{
-alert("كلمة السر خطأ");
+
+product.style.display="none";
+
 }
-}
-
-/* ======================
-   DATA
-====================== */
-
-let products = JSON.parse(localStorage.getItem("products")) || [
-{name:"Smart Watch",price:3500,img:"https://picsum.photos/400/300?1"},
-{name:"Headphones",price:5500,img:"https://picsum.photos/400/300?2"}
-];
-
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-let orders = JSON.parse(localStorage.getItem("orders")) || [];
-
-/* ======================
-   PRODUCTS
-====================== */
-
-function renderProducts(){
-
-let box = document.getElementById("products");
-box.innerHTML="";
-
-products.forEach((p,i)=>{
-
-box.innerHTML+=`
-<div class="card">
-<img src="${p.img}">
-<div class="info">
-<h3>${p.name}</h3>
-<p class="price">${p.price} دج</p>
-<button onclick="addToCart(${i})">أضف للسلة</button>
-<button class="small-btn" onclick="deleteProduct(${i})">حذف</button>
-</div>
-</div>
-`;
 
 });
 
 }
 
-/* ======================
-   ADD PRODUCT
-====================== */
+const shippingPrices={
 
-function addProduct(){
+"الجزائر":650,
+"سطيف":850,
+"وهران":750,
+"قسنطينة":700
 
-let name=document.getElementById("pname").value;
-let price=document.getElementById("pprice").value;
-let img=document.getElementById("pimg").value;
+};
 
-products.push({name,price,img});
-localStorage.setItem("products",JSON.stringify(products));
+document
+.getElementById("wilaya")
+.addEventListener(
+"change",
+function(){
 
-renderProducts();
+let price=
+shippingPrices[this.value]
+||900;
 
-}
+document
+.getElementById("shippingPrice")
+.innerHTML=
 
-/* ======================
-   DELETE PRODUCT
-====================== */
-
-function deleteProduct(i){
-products.splice(i,1);
-localStorage.setItem("products",JSON.stringify(products));
-renderProducts();
-}
-
-/* ======================
-   CART
-====================== */
-
-function addToCart(i){
-cart.push(products[i]);
-localStorage.setItem("cart",JSON.stringify(cart));
-renderCart();
-}
-
-function renderCart(){
-
-document.getElementById("count").innerText=cart.length;
-
-let box=document.getElementById("cartItems");
-box.innerHTML="";
-
-cart.forEach(c=>{
-box.innerHTML+=`
-<div class="item">${c.name} - ${c.price} دج</div>
-`;
-});
+"سعر التوصيل : "
++price+
+" دج";
 
 }
-
-/* ======================
-   CART PANEL
-====================== */
-
-function toggleCart(){
-document.getElementById("cartPanel").classList.toggle("active");
-}
-
-/* ======================
-   ORDER SYSTEM
-====================== */
+);
 
 function sendOrder(){
 
-let name=document.getElementById("name").value;
-let phone=document.getElementById("phone").value;
-let wilaya=document.getElementById("wilaya").value;
+let wilaya=
+document
+.getElementById("wilaya")
+.value;
 
-let items=cart.map(p=>p.name).join(", ");
-let total=cart.reduce((a,b)=>a+Number(b.price),0);
+let shipping=
+shippingPrices[wilaya]
+||900;
 
-let order={
-name,phone,wilaya,items,total,date:new Date().toLocaleString()
-};
+let qty=
+document
+.getElementById("qty")
+.value;
 
-orders.push(order);
-localStorage.setItem("orders",JSON.stringify(orders));
-
-localStorage.setItem("cart",JSON.stringify([]));
-cart=[];
-
-renderCart();
-renderOrders();
+let total=
+(selectedPrice*qty)
++shipping;
 
 let msg=
-`🛒 طلب جديد - DZ STORE ULTRA
 
-👤 الاسم: ${name}
-📞 الهاتف: ${phone}
-🏙 الولاية: ${wilaya}
+"🛒 طلب جديد - DE STORE\n\n"+
 
-📦 المنتجات: ${items}
-💰 المجموع: ${total} دج`;
+"📦 المنتج: "
++selectedProduct+
 
-window.open("https://wa.me/213775123025?text="+encodeURIComponent(msg));
+"\n💰 السعر: "
++selectedPrice+
+" دج"+
+
+"\n🔢 الكمية: "
++qty+
+
+"\n🚚 التوصيل: "
++shipping+
+" دج"+
+
+"\n💵 المجموع: "
++total+
+" دج"+
+
+"\n\n👤 الاسم: "
++document.getElementById("name").value+
+
+"\n📞 الهاتف: "
++document.getElementById("phone").value+
+
+"\n🏙 الولاية: "
++wilaya+
+
+"\n📍 العنوان: "
++document.getElementById("address").value+
+
+"\n📝 ملاحظات: "
++document.getElementById("note").value+
+
+"\n🖼 الصورة: "
++selectedImage;
+
+window.open(
+"https://wa.me/213775123025?text="
++encodeURIComponent(msg)
+);
 
 }
 
-/* ======================
-   ORDERS DASHBOARD
-====================== */
+   </script>
+   <footer
+id="contact"
+style="
+margin-top:40px;
+padding:30px;
+background:#000;
+text-align:center;
+"
+>
 
-function renderOrders(){
+<h3>
+👑 DE STORE
+</h3>
 
-let box=document.getElementById("orders");
-if(!box) return;
+<br>
 
-box.innerHTML="";
+📞 WhatsApp
 
-orders.forEach((o,i)=>{
+<br>
 
-box.innerHTML+=`
-<div class="item">
-<b>#${i+1}</b><br>
-${o.name} - ${o.phone}<br>
-${o.wilaya}<br>
-${o.items}<br>
-💰 ${o.total} دج<br>
-🕒 ${o.date}
++213775123025
+
+<br><br>
+
+🚚 توصيل إلى جميع ولايات الجزائر
+
+<br><br>
+
+© 2026 DE STORE
+
+</footer>
+
 </div>
-`;
-
-});
-
-}
-
-renderProducts();
-renderCart();
-renderOrders();
-
-</script>
 
 </body>
 </html>
