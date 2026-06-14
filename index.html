@@ -1,17 +1,13 @@
-<header>
-  <div class="logo">
-    👑
-    <div class="brand">DZ STORE</div>
-  </div>
-</header>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 
-<section class="hero">
-  <div class="hero-box">
-    <h1>مرحباً بك في DZ STORE</h1>
-    <p>متجر إلكتروني احترافي - توصيل إلى جميع ولايات الجزائر</p>
-    <a href="#products" class="btn">تصفح المنتجات</a>
-  </div>
-</section>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>👑 DE STORE</title>
+
+<style>
+
 *{
 margin:0;
 padding:0;
@@ -20,85 +16,278 @@ font-family:Arial;
 }
 
 body{
-background:#0f1115;
-color:#fff;
+background:#0b0f14;
+color:white;
 }
 
 /* HEADER */
 header{
+padding:15px;
+text-align:center;
+background:rgba(0,0,0,0.6);
+backdrop-filter:blur(10px);
 position:sticky;
 top:0;
 z-index:1000;
-background:rgba(15,17,21,0.85);
-backdrop-filter:blur(10px);
-border-bottom:1px solid #222;
-padding:12px;
-text-align:center;
+border-bottom:1px solid #1f2a36;
 }
 
 .logo{
-display:flex;
-flex-direction:column;
-align-items:center;
-gap:3px;
-}
-
-.logo .brand{
-font-size:22px;
+font-size:26px;
 font-weight:bold;
-letter-spacing:3px;
 color:#00ff88;
 }
 
-/* HERO PROFESSIONAL */
+/* HERO */
 .hero{
-padding:80px 20px;
-display:flex;
-justify-content:center;
-align-items:center;
+padding:70px 20px;
 text-align:center;
-background:
-radial-gradient(circle at top, rgba(0,255,136,0.08), transparent 60%),
-linear-gradient(180deg,#0f1115,#0b0c10);
-border-bottom:1px solid #1d1f25;
-}
-
-.hero-box{
-max-width:700px;
+background:linear-gradient(180deg,#0b0f14,#0c1118);
 }
 
 .hero h1{
-font-size:42px;
+font-size:40px;
 margin-bottom:10px;
-color:#fff;
 }
 
 .hero p{
 color:#aaa;
-font-size:18px;
-margin-bottom:20px;
+}
+
+/* PRODUCTS */
+.container{
+max-width:1200px;
+margin:auto;
+padding:20px;
+}
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:18px;
+margin-top:20px;
+}
+
+/* CARD */
+.card{
+background:#121823;
+border:1px solid #1e2a38;
+border-radius:15px;
+overflow:hidden;
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-6px);
+border-color:#00ff88;
+}
+
+.card img{
+width:100%;
+height:220px;
+object-fit:cover;
+cursor:pointer;
+}
+
+.info{
+padding:15px;
+}
+
+.price{
+color:#00ff88;
+font-size:20px;
+font-weight:bold;
+margin:10px 0;
 }
 
 /* BUTTON */
 .btn{
-display:inline-block;
-padding:12px 28px;
+display:block;
+text-align:center;
+padding:12px;
 background:#00ff88;
 color:#000;
 font-weight:bold;
 border-radius:10px;
 text-decoration:none;
-transition:0.3s;
+cursor:pointer;
 }
 
-.btn:hover{
-transform:translateY(-3px);
-background:#00e07a;
+/* POPUP */
+.popup{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.8);
+justify-content:center;
+align-items:center;
+z-index:9999;
 }
 
-/* LOGO ICON */
-.logo::before{
-content:"👑";
-font-size:26px;
+.popup-box{
+background:#111826;
+padding:20px;
+border-radius:15px;
+width:90%;
+max-width:400px;
+}
+
+.popup-box input,
+.popup-box select{
+width:100%;
+padding:10px;
+margin:8px 0;
+border:none;
+border-radius:8px;
+}
+
+.popup-box button{
+width:100%;
+padding:12px;
+background:#00ff88;
+border:none;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.close{
+text-align:right;
+cursor:pointer;
+color:red;
+font-size:18px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+<div class="logo">👑 DE STORE</div>
+</header>
+
+<section class="hero">
+<h1>متجر ضخم وسهل الطلب</h1>
+<p>اطلب أي منتج في أقل من 10 ثواني</p>
+</section>
+
+<div class="container">
+
+<div id="products" class="products"></div>
+
+</div>
+
+<!-- POPUP ORDER -->
+<div class="popup" id="popup">
+
+<div class="popup-box">
+
+<div class="close" onclick="closePopup()">✖</div>
+
+<h3>إتمام الطلب</h3>
+
+<input id="name" placeholder="الاسم">
+<input id="phone" placeholder="رقم الهاتف">
+
+<select id="wilaya">
+<option>الجزائر</option>
+<option>سطيف</option>
+<option>وهران</option>
+<option>قسنطينة</option>
+<option>باتنة</option>
+</select>
+
+<input id="address" placeholder="العنوان">
+
+<button onclick="sendOrder()">إرسال عبر واتساب</button>
+
+</div>
+
+</div>
+
+<script>
+
+/* PRODUCTS DATABASE */
+const products = [
+
+{
+name:"Smart Watch",
+price:3500,
+image:"images/watch.jpg"
+},
+
+{
+name:"Headphones",
+price:4500,
+image:"images/headphones.jpg"
+},
+
+{
+name:"Mini Blender",
+price:5500,
+image:"images/blender.jpg"
+}
+
+];
+
+/* DISPLAY PRODUCTS */
+let container=document.getElementById("products");
+
+products.forEach((p,i)=>{
+
+container.innerHTML+=`
+<div class="card">
+<img src="${p.image}">
+<div class="info">
+<h3>${p.name}</h3>
+<div class="price">${p.price} دج</div>
+<button class="btn" onclick="openPopup(${i})">
+Commander
+</button>
+</div>
+</div>
+`;
+
+});
+
+let selectedProduct=null;
+
+/* OPEN POPUP */
+function openPopup(index){
+selectedProduct=products[index];
+document.getElementById("popup").style.display="flex";
+}
+
+/* CLOSE */
+function closePopup(){
+document.getElementById("popup").style.display="none";
+}
+
+/* SEND ORDER */
+function sendOrder(){
+
+let msg=
+"🛒 طلب جديد - DE STORE\n\n"+
+"📦 المنتج: "+selectedProduct.name+"\n"+
+"💰 السعر: "+selectedProduct.price+" دج\n\n"+
+"👤 الاسم: "+document.getElementById("name").value+"\n"+
+"📞 الهاتف: "+document.getElementById("phone").value+"\n"+
+"🏙 الولاية: "+document.getElementById("wilaya").value+"\n"+
+"📍 العنوان: "+document.getElementById("address").value;
+
+window.open(
+"https://wa.me/213775123025?text="+encodeURIComponent(msg),
+"_blank"
+);
 
 }
+
+</script>
+
+</body>
+</html>
