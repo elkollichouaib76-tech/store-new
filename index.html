@@ -773,9 +773,7 @@ document.getElementById("wilayaInput").value = name;
 document.getElementById("wilayaList").style.display = "none";
   }
   
-</script>
-<script>
-
+/<script>
 const ADMIN_PASSWORD = "Tadj2026@";
 
 function openAdmin(){
@@ -796,9 +794,19 @@ document.getElementById("panel").style.display = "block";
 alert("كلمة السر خطأ");
 }
 }
-
 </script>
-
+<div id="adminPanel" style="
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.95);
+z-index:99999;
+padding:20px;
+overflow:auto;
+color:white;
+">
+...
+  </div>
   </script>
 <div id="adminPanel" style="
 display:none;
