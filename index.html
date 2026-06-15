@@ -774,6 +774,32 @@ document.getElementById("wilayaList").style.display = "none";
   }
   
 </script>
+<script>
+
+const ADMIN_PASSWORD = "Tadj2026@";
+
+function openAdmin(){
+document.getElementById("adminPanel").style.display = "block";
+}
+
+function closeAdmin(){
+document.getElementById("adminPanel").style.display = "none";
+}
+
+function checkAdmin(){
+let pass = document.getElementById("adminPass").value;
+
+if(pass === ADMIN_PASSWORD){
+document.getElementById("loginBox").style.display = "none";
+document.getElementById("panel").style.display = "block";
+} else {
+alert("كلمة السر خطأ");
+}
+}
+
+</script>
+
+  </script>
 <div id="adminPanel" style="
 display:none;
 position:fixed;
@@ -819,3 +845,12 @@ color:white;
 
 </div>
 </div>
+<button onclick="openAdmin()" style="
+position:fixed;
+bottom:10px;
+right:10px;
+opacity:0.2;
+padding:5px;
+">
+⚙
+ </button> 
