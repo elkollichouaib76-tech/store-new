@@ -543,19 +543,22 @@ price:5500,
 description:"خلاط قوي لتحضير العصائر بسرعة وسهولة.",
 image:"https://images.unsplash.com/photo-1570222094114-d054a817e56b?w=500"
 }
-];
 function updateTotalPrice(){
 
 let qty = parseInt(document.getElementById("qty").value) || 1;
 
 let productTotal = selectedPrice * qty;
+let total = productTotal + deliveryPrice;
 
-let deliveryPrice = 600;
+document.getElementById("productPriceDisplay").innerText =
+productTotal + " دج";
 
-document.getElementById("qty").value = 1;
-updateTotalPrice();
+document.getElementById("totalPriceDisplay").innerText =
+total + " دج";
 
   }
+];
+
 /* =======================
    RENDER PRODUCTS
 ======================= */
