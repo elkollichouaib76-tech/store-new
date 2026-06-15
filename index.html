@@ -417,8 +417,12 @@ style="width:100%;padding:10px;margin:5px 0;border-radius:8px;border:none">
 <!-- الولاية --><select id="wilaya"
 style="width:100%;padding:10px;margin:5px 0;border-radius:8px;border:none">
 
-<select id="wilaya">
-
+<input id="wilayaInput"
+placeholder="اكتب الولاية (مثال: سطيف)"
+style="width:100%;padding:10px;margin:5px 0;border-radius:8px;border:none">
+<div id="wilayaList"
+style="background:#222;max-height:150px;overflow:auto;border-radius:8px;display:none">
+</div>
 <option>أدرار</option>
 <option>الشلف</option>
 <option>الأغواط</option>
@@ -657,7 +661,7 @@ function sendOrder(){
 let first = document.getElementById("firstName").value;
 let last = document.getElementById("lastName").value;
 let phone = document.getElementById("phone").value;
-let wilaya = document.getElementById("wilaya").value;
+let wilaya = document.getElementById("wilayaInput").value;
 let commune = document.getElementById("commune").value;
 let address = document.getElementById("address").value;
 let delivery = document.getElementById("delivery").value;
@@ -693,3 +697,37 @@ window.open(
 renderProducts();
 
 </script>
+const wilayas = ["أدرار","الشلف","الأغواط","أم البواقي","باتنة","بجاية","بسكرة","بشار","البليدة","البويرة","تمنراست","تبسة","تلمسان","تيارت","تيزي وزو","الجزائر","الجلفة","جيجل","سطيف","سعيدة","سكيكدة","سيدي بلعباس","عنابة","قالمة","قسنطينة","المدية","مستغانم","المسيلة","معسكر","ورقلة","وهران","البيض","إليزي","برج بوعريريج","بومرداس","الطارف","تندوف","تيسمسيلت","الوادي","خنشلة","سوق أهراس","تيبازة","ميلة","عين الدفلى","النعامة","عين تموشنت","غرداية","غليزان","المغير","المنيعة","أولاد جلال","برج باجي مختار","بني عباس","تقرت","جانت","عين صالح","عين قزام"];
+
+function filterWilaya(){
+
+let input = document.getElementById("wilayaInput").value.toLowerCase();
+let list = document.getElementById("wilayaList");
+
+list.innerHTML = "";
+
+if(input === ""){
+list.style.display = "none";
+return;
+}
+
+let result = wilayas.filter(w =>
+w.toLowerCase().includes(input)
+);
+
+result.forEach(w => {
+list.innerHTML += `
+<div onclick="selectWilaya('${w}')"
+style="padding:8px;color:white;cursor:pointer">
+${w}
+</div>
+`;
+});
+
+list.style.display = "block";
+}
+
+function selectWilaya(name){
+document.getElementById("wilayaInput").value = name;
+document.getElementById("wilayaList").style.display = "none";
+}
