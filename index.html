@@ -785,6 +785,13 @@ document.getElementById("adminPanel").style.display = "none";
 
 function checkAdmin(){
 let pass = document.getElementById("adminPass").value;
+if(pass === ADMIN_PASSWORD){
+document.getElementById("loginBox").style.display = "none";
+document.getElementById("panel").style.display = "block";
+} else {
+alert("كلمة السر خطأ");
+}
+}
 function addProduct(){
 let name = document.getElementById("pname").value;
 let price = document.getElementById("pprice").value;
@@ -803,14 +810,7 @@ description:desc
 renderProducts();
 
 alert("تم إضافة المنتج بنجاح");
-  }
-if(pass === ADMIN_PASSWORD){
-document.getElementById("loginBox").style.display = "none";
-document.getElementById("panel").style.display = "block";
-} else {
-alert("كلمة السر خطأ");
-}
-}
+  }  
 </script>
 <div id="adminPanel" style="
 display:none;
